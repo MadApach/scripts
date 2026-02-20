@@ -1,0 +1,14 @@
+#!/bin/bash
+
+sudo echo "
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.login1.hibernate" ||
+        action.id == "org.freedesktop.login1.hibernate-multiple-sessions" ||
+        action.id == "org.freedesktop.upower.hibernate" ||
+        action.id == "org.freedesktop.login1.handle-hibernate-key" ||
+        action.id == "org.freedesktop.login1.hibernate-ignore-inhibit")
+    {
+        return polkit.Result.YES;
+    }
+});
+" | sudo tee /etc/polkit-1/rules.d/10-enable-hibernate.rules
